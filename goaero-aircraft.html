@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Engineering portfolio of Nan An — mechanical engineering, robotics, control, optimization, and mechanical computing." />
+  <title>Power-System Design and Integration for a GoAERO Aircraft | Nan An</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg: #111318;
+  --bg-2: #171a21;
+  --panel: #1f232b;
+  --panel-2: #262b34;
+  --paper: #f3efe8;
+  --paper-2: #e7e0d7;
+  --ink: #f7f5f1;
+  --ink-dark: #17191c;
+  --muted: #aeb5bf;
+  --muted-dark: #5f666e;
+  --line: rgba(255,255,255,.10);
+  --line-dark: rgba(20,23,27,.13);
+  --accent: #b72f46;
+  --accent-2: #e76579;
+  --accent-dark: #7f1729;
+  --gold: #d8b36a;
+  --radius: 26px;
+  --shadow: 0 28px 80px rgba(0,0,0,.30);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 5%, rgba(183,47,70,.17), transparent 24%),
+    radial-gradient(circle at 92% 18%, rgba(74,88,111,.20), transparent 28%),
+    var(--bg);
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+.shell { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+.page-glow { display: none; }
+
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  height: 78px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 max(24px, calc((100vw - 1180px)/2));
+  background: rgba(17,19,24,.82);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display:grid; place-items:center; width:46px; height:46px;
+  border-radius:14px; text-decoration:none; color:white;
+  font-family:Manrope,sans-serif; font-weight:800;
+  background:linear-gradient(135deg,var(--accent),#ed6a80);
+  box-shadow:0 12px 26px rgba(183,47,70,.30);
+}
+nav { display:flex; gap:28px; }
+nav a {
+  position:relative; text-decoration:none; font-size:.93rem; font-weight:700;
+  color:#d6dbe2; padding:8px 0;
+}
+nav a:hover { color:#fff; }
+nav a::after {
+  content:""; position:absolute; left:0; bottom:0; width:100%; height:2px;
+  background:var(--accent-2); transform:scaleX(0); transform-origin:left;
+  transition:transform .2s ease;
+}
+nav a:hover::after { transform:scaleX(1); }
+
+.hero {
+  position:relative;
+  min-height:790px;
+  display:grid; grid-template-columns:1.08fr .92fr;
+  align-items:center; gap:58px;
+  padding:100px 0 88px;
+}
+.hero::before {
+  content:"";
+  position:absolute; inset:38px -54px 24px;
+  border-radius:38px;
+  background:
+    linear-gradient(120deg, rgba(183,47,70,.20), transparent 35%),
+    linear-gradient(180deg,#1b1f27 0%,#15181e 100%);
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:var(--shadow);
+  z-index:-1;
+}
+.hero-copy { padding-left:18px; }
+.eyebrow,.section-kicker,.project-type,.mini-kicker {
+  margin:0 0 12px; font-size:.77rem; font-weight:800;
+  letter-spacing:.14em; text-transform:uppercase;
+}
+.eyebrow,.section-kicker,.project-type { color:var(--accent-2); }
+.mini-kicker { color:var(--accent-dark); }
+.hero h1,h2,h3 { font-family:Manrope,Inter,sans-serif; }
+.hero h1 {
+  margin:0; max-width:11ch;
+  font-size:clamp(3.2rem,6.5vw,6.5rem);
+  line-height:.94; letter-spacing:-.06em;
+}
+.hero h1 span {
+  color:transparent;
+  background:linear-gradient(90deg,#f07b8d 0%,#c73b52 50%,#d8b36a 100%);
+  -webkit-background-clip:text; background-clip:text;
+}
+.lede { max-width:680px; margin:30px 0 0; color:#bbc2cb; font-size:1.18rem; }
+.hero-actions { display:flex; gap:14px; margin-top:34px; flex-wrap:wrap; }
+.button {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:52px; padding:0 22px; border-radius:14px;
+  text-decoration:none; font-weight:800; transition:.2s ease;
+}
+.button:hover { transform:translateY(-2px); }
+.primary {
+  background:linear-gradient(135deg,var(--accent),#db5b70); color:#fff;
+  box-shadow:0 16px 28px rgba(183,47,70,.25);
+}
+.secondary { border:1px solid rgba(255,255,255,.17); background:#252a33; color:#fff; }
+.hero-pills { display:flex; flex-wrap:wrap; gap:10px; margin-top:28px; }
+.hero-pills span {
+  padding:9px 13px; border-radius:999px; font-size:.88rem; font-weight:700;
+  background:#222730; color:#d8dde3; border:1px solid rgba(255,255,255,.08);
+}
+.hero-note {
+  display:inline-flex; flex-wrap:wrap; gap:10px; align-items:center;
+  margin-top:26px; padding:13px 15px; border-radius:14px;
+  background:rgba(183,47,70,.10); border:1px solid rgba(231,101,121,.22); color:#cbd1d9;
+}
+.hero-note strong { color:#fff; }
+
+.hero-panel {
+  border-radius:30px; overflow:hidden;
+  background:#20242c; border:1px solid rgba(255,255,255,.08);
+  box-shadow:var(--shadow);
+}
+.panel-visual {
+  position:relative; min-height:310px; padding:22px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(183,47,70,.30),transparent 30%),
+    linear-gradient(145deg,#2a303a,#15181e);
+  border-bottom:1px solid var(--line);
+}
+.panel-visual::after {
+  content:""; position:absolute; inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:28px 28px; pointer-events:none;
+}
+.panel-visual svg { width:100%; height:245px; display:block; position:relative; z-index:1; }
+.panel-caption {
+  position:absolute; left:24px; bottom:20px; z-index:2;
+  padding:14px 16px; border-radius:16px;
+  background:rgba(15,17,21,.72); backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.12);
+}
+.panel-caption p { margin:0 0 4px; color:#aeb6c0; font-size:.82rem; }
+.panel-caption strong { font-size:.95rem; }
+.panel-node { stroke-width:10; vector-effect:non-scaling-stroke; }
+.node-fill { fill:#20242c; stroke:#ea667c; }
+.panel-light { fill:#2f3540; stroke:#6f7a89; }
+.panel-link { fill:none; stroke:#c7ced8; stroke-width:6; stroke-linecap:round; }
+.panel-dot { fill:#d8b36a; }
+.focus-grid { display:grid; grid-template-columns:1fr 1fr; }
+.focus-item {
+  display:grid; grid-template-columns:40px 1fr; gap:4px 12px; padding:22px 24px;
+  border-right:1px solid var(--line); border-bottom:1px solid var(--line);
+}
+.focus-item:nth-child(2n){border-right:0}.focus-item:nth-last-child(-n+2){border-bottom:0}
+.focus-item span { grid-row:span 2; color:var(--accent-2); font-weight:800; }
+.focus-item strong { font-family:Manrope,sans-serif; }
+.focus-item small { color:#aeb5be; }
+
+.section { padding:102px 0; }
+.two-col { display:grid; grid-template-columns:.85fr 1.15fr; gap:90px; }
+h2 { margin:0; font-size:clamp(2.25rem,4vw,4.1rem); line-height:1.07; letter-spacing:-.045em; }
+.prose { color:#4d555e; font-size:1.08rem; }
+.prose p:first-child{margin-top:0}
+
+.about-section {
+  position:relative; width:100%; max-width:none; padding:110px max(24px,calc((100vw - 1180px)/2));
+  background:var(--paper); color:var(--ink-dark);
+}
+.about-section .section-kicker { color:var(--accent-dark); }
+.about-section .section-intro,.about-section .about-cards { width:min(1180px,100%); margin-left:auto; margin-right:auto; }
+.about-cards { margin-top:42px; display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.info-card {
+  position:relative; min-height:210px; padding:26px; border-radius:24px; overflow:hidden;
+  background:#fff; border:1px solid #ded7cf; box-shadow:0 18px 36px rgba(45,34,27,.08);
+}
+.info-card::before { content:""; position:absolute; top:0; left:0; width:100%; height:6px; background:linear-gradient(90deg,var(--accent),var(--gold)); }
+.info-card h3 { margin:0 0 10px; font-size:1.23rem; line-height:1.2; }
+.info-card p:last-child { margin:0; color:#59616a; }
+
+.section-heading { display:flex; justify-content:space-between; gap:36px; align-items:end; margin-bottom:38px; }
+.section-heading>p { width:min(430px,100%); margin:0; color:var(--muted); }
+
+#projects { position:relative; }
+#projects::before {
+  content:""; position:absolute; left:50%; top:0; transform:translateX(-50%);
+  width:100vw; height:100%; z-index:-2;
+  background:linear-gradient(180deg,#111318 0%,#161a21 100%);
+}
+.project-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
+.project-card {
+  border-radius:28px; overflow:hidden;
+  background:#20242c; border:1px solid rgba(255,255,255,.08); box-shadow:0 22px 48px rgba(0,0,0,.22);
+  transition:transform .22s ease,border-color .22s ease;
+}
+.project-card:hover { transform:translateY(-5px); border-color:rgba(231,101,121,.35); }
+.project-card.featured,.project-card.wide { grid-column:1/-1; display:grid; grid-template-columns:1fr 1.18fr; }
+.project-visual {
+  min-height:305px; display:grid; place-items:center; overflow:hidden; position:relative;
+  background:
+    radial-gradient(circle at 25% 20%,rgba(183,47,70,.26),transparent 28%),
+    linear-gradient(145deg,#343b46,#242a33);
+}
+.project-visual::before {
+  content:""; position:absolute; inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:30px 30px;
+}
+.project-visual svg { width:100%; height:100%; min-height:270px; position:relative; z-index:1; }
+.project-body { padding:30px; }
+.project-body h3 { margin:0 0 12px; font-size:1.65rem; letter-spacing:-.02em; }
+.project-summary { margin:0 0 18px; color:#aeb5bf; }
+.project-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px; }
+.project-tags span { padding:8px 11px; border-radius:999px; background:rgba(183,47,70,.13); color:#f08a9b; border:1px solid rgba(231,101,121,.15); font-size:.80rem; font-weight:700; }
+.project-facts { display:grid; gap:14px; }
+.project-facts.compact { grid-template-columns:1fr 1fr; }
+.project-facts div { padding-top:14px; border-top:1px solid var(--line); }
+.project-facts span { color:var(--accent-2); font-size:.74rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.project-facts p { margin:4px 0 0; color:#d4d9df; font-size:.93rem; }
+.project-visual svg * { vector-effect:non-scaling-stroke; }
+.visual-touch .surface,.visual-material .surface{fill:none;stroke:#ed6a80;stroke-width:8;stroke-linecap:round}
+.visual-touch .normal,.visual-touch .arm{fill:none;stroke:#d4dbe4;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.visual-touch circle{fill:#2a3038;stroke:#f3f5f7;stroke-width:6}.visual-touch .accent-dot{fill:#ed6a80;stroke:#fff}
+.visual-computing .nodes circle{fill:#2a3038;stroke:#ed6a80;stroke-width:7}.visual-computing .links path{fill:none;stroke:#d4dbe4;stroke-width:6}
+.visual-material .gridline{fill:none;stroke:#59636f;stroke-width:1.5}.visual-material .material-block{fill:#2b313a;stroke:#606b77;stroke-width:2}.visual-material .magnet rect{fill:#d8dde4}.visual-material .magnet path{stroke:#ed6a80;stroke-width:6}
+.visual-drone .hub{fill:#ed6a80}.visual-drone .rotors line{stroke:#d5dbe3;stroke-width:7;stroke-linecap:round}.visual-drone .rotors circle{fill:#2b313a;stroke:#d5dbe3;stroke-width:5}
+.visual-energy .tower{fill:none;stroke:#d5dbe3;stroke-width:8}.visual-energy .mass{fill:#ed6a80}.visual-energy .cable{fill:none;stroke:#7f8996;stroke-width:4}.visual-energy .motion{fill:none;stroke:#ed6a80;stroke-width:6;stroke-linecap:round}
+
+#experience {
+  position:relative; color:var(--ink-dark);
+}
+#experience::before {
+  content:""; position:absolute; left:50%; top:0; transform:translateX(-50%);
+  width:100vw; height:100%; z-index:-2; background:#e9e2d9;
+}
+#experience .section-kicker{color:var(--accent-dark)}
+.timeline { position:relative; padding-left:24px; }
+.timeline::before { content:""; position:absolute; left:7px; top:5px; bottom:5px; width:2px; background:linear-gradient(var(--accent),rgba(183,47,70,.15)); }
+.timeline-row { position:relative; display:grid; grid-template-columns:160px 1fr; gap:30px; padding:28px 0; border-bottom:1px solid var(--line-dark); }
+.timeline-row:first-child{border-top:1px solid var(--line-dark)}
+.timeline-row::before { content:""; position:absolute; left:-24px; top:34px; width:14px; height:14px; border-radius:50%; background:#e9e2d9; border:4px solid var(--accent); box-shadow:0 0 0 5px rgba(183,47,70,.10); }
+.timeline-row .date { color:var(--accent-dark); font-weight:800; }
+.timeline-row h3 { margin:0 0 4px; font-size:1.16rem; }.timeline-row p{margin:0;font-weight:700}.timeline-row small{display:block;margin-top:4px;color:#68707a}
+
+.skills-section { display:grid; grid-template-columns:.8fr 1.2fr; gap:80px; align-items:start; }
+.skills-panel { padding:30px; border-radius:28px; background:#222730; border:1px solid var(--line); box-shadow:var(--shadow); }
+.skill-cloud { display:flex; flex-wrap:wrap; gap:10px; }
+.skill-cloud span { padding:11px 14px; border-radius:999px; background:#303641; border:1px solid rgba(255,255,255,.07); color:#f0f2f4; font-weight:700; }
+.skills-note { margin-top:22px; padding-top:20px; border-top:1px solid var(--line); color:#aeb5bf; }.skills-note p{margin:0}
+
+.contact-card {
+  position:relative;
+  display:grid; grid-template-columns:1fr 1fr; gap:60px;
+  margin-top:24px; margin-bottom:80px; padding:62px;
+  border-radius:34px; overflow:hidden;
+  background:
+    linear-gradient(120deg,rgba(183,47,70,.92),rgba(127,23,41,.95) 50%,#252a32 100%);
+  box-shadow:var(--shadow);
+}
+.contact-card::after { content:""; position:absolute; right:-120px; top:-120px; width:360px; height:360px; border-radius:50%; border:60px solid rgba(255,255,255,.06); }
+.contact-card .section-kicker{color:#ffd8de}.contact-text{max-width:44ch;color:#f0dfe2}.contact-lines{align-self:end;position:relative;z-index:1}.contact-lines p{display:grid;grid-template-columns:100px 1fr;gap:18px;margin:0;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.20);color:#f2e9eb}.contact-lines span{color:#fff;font-weight:800}
+.site-footer { display:flex; justify-content:space-between; gap:24px; padding:18px 0 40px; color:#89919c; font-size:.9rem; }
+
+@media(max-width:1080px){.about-cards{grid-template-columns:1fr}}
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;min-height:auto;gap:40px}.hero::before{inset:32px -16px 0}.hero-copy{padding-left:0}.focus-grid{grid-template-columns:1fr}.focus-item{border-right:0}.focus-item:not(:last-child){border-bottom:1px solid var(--line)}
+  .two-col,.skills-section,.contact-card{grid-template-columns:1fr;gap:32px}.project-card.featured,.project-card.wide{grid-template-columns:1fr}.section-heading{align-items:start;flex-direction:column}
+}
+@media(max-width:700px){
+  .shell{width:min(100% - 30px,1180px)}.site-header{padding:0 15px}nav{gap:15px;overflow-x:auto;font-size:.88rem}nav a:nth-child(3){display:none}.hero{padding-top:72px}.hero h1{font-size:clamp(2.8rem,15vw,4.8rem)}.section{padding:72px 0}.about-section{padding:76px 15px}.project-grid{grid-template-columns:1fr}.project-card.featured,.project-card.wide{grid-column:auto}.project-facts.compact{grid-template-columns:1fr}.timeline{padding-left:18px}.timeline-row{grid-template-columns:1fr;gap:5px}.contact-card{padding:36px 24px;border-radius:24px}.contact-lines p{grid-template-columns:1fr;gap:2px}.site-footer{flex-direction:column}.panel-caption{position:static;margin-top:-4px}
+}
+
+
+.resume-section{background:linear-gradient(180deg,#12151b,#181c23);border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+.resume-card{background:#f7f3ed;color:#191b1e;border-radius:30px;padding:38px;box-shadow:0 30px 90px rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.4)}
+.resume-head{display:flex;justify-content:space-between;gap:30px;padding-bottom:20px;border-bottom:2px solid #202328}.resume-head h3{font-size:2.2rem;margin:0}.resume-head p{margin:4px 0 0;color:#6c6264}.resume-meta{text-align:right;font-size:.88rem;color:#6b6265}
+.resume-columns{display:grid;grid-template-columns:1fr 1fr;gap:46px;padding-top:26px}.resume-card h4{font-family:Manrope,Inter,sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:#8f1f2b;margin:22px 0 10px}.resume-card h4:first-child{margin-top:0}.resume-entry{position:relative;padding:12px 0;border-bottom:1px solid rgba(24,26,29,.1)}.resume-entry strong{display:block;padding-right:90px}.resume-entry span{position:absolute;right:0;top:12px;font-size:.78rem;color:#6b6265}.resume-entry p{margin:4px 0 0;color:#54595f;font-size:.9rem}.resume-skills{color:#54595f}.resume-download-note{margin-top:24px;padding-top:18px;border-top:1px solid rgba(24,26,29,.12);font-size:.84rem;color:#676d73}@media(max-width:800px){.resume-columns{grid-template-columns:1fr}.resume-head{flex-direction:column}.resume-meta{text-align:left}}
+
+</style>
+</head>
+<body><header class="site-header">
+    <a class="brand" href="index.html#top" aria-label="Nan An home">NA</a>
+    <nav aria-label="Primary navigation">
+      <a href="index.html#about">About</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#resume">Resume</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header><main id="top"><section class="section shell"><p class="section-kicker">Selected work</p><div class="section-heading"><div><h2>Power-System Design and Integration for a GoAERO Aircraft</h2></div></div><p class="lede">Course-project team member · Carnegie Mellon University · Sep–Dec 2025</p><div class="hero-actions"><a class="button secondary" href="index.html#projects">Back to projects</a></div><article class="project-card" style="margin-top:26px"><div class="project-body"><h3>Introduction and Objective</h3><p class="project-summary" style="margin-bottom:0">Aircraft designed for rescue could help reach people where ground access is difficult. Our course team designed and built a twelve-rotor aircraft for the GoAERO competition. Within this larger effort, my objective was to design and integrate the power subsystem so that it could function as part of the complete vehicle.</p></div></article><article class="project-card" style="margin-top:26px"><div class="project-body"><h3>Design and My Contribution</h3><p class="project-summary" style="margin-bottom:0">I held primary responsibility for power-system design and integration, coordinating this subsystem with the team’s aircraft build. My contribution centered on the interface between electrical power and the aircraft’s propulsion hardware. This work required subsystem-level decisions to be considered within the mechanical and electrical constraints of the assembled vehicle.</p><figure style="margin:22px 0"><img src="goaero-aircraft.jpg" alt="Assembled aircraft on a workshop stand with propulsion units and power wiring visible." style="display:block;max-width:100%;width:auto;height:auto;margin:0 auto;border-radius:14px"><figcaption style="color:#aeb5bf;font-size:.9rem;margin-top:14px">Assembled GoAERO aircraft in the workshop. The photograph shows the structural frame, propulsion units, and electrical wiring; my responsibility was power-system design and integration.</figcaption></figure></div></article><article class="project-card" style="margin-top:26px"><div class="project-body"><h3>Results and Evaluation</h3><p class="project-summary" style="margin-bottom:0">The team designed and built the aircraft. The workshop photograph documents the assembled frame, propulsion units, and electrical wiring, providing evidence of the construction and integration stage. My contribution was power-system design and integration. Voltage stability, thermal behavior, endurance, and flight performance require quantitative test records before the subsystem’s operational effectiveness can be established.</p></div></article><article class="project-card" style="margin-top:26px"><div class="project-body"><h3>Conclusion</h3><p class="project-summary" style="margin-bottom:0">The project developed my experience in integrating a defined subsystem within a larger engineering team. The assembled platform provides a basis for further testing of the power system under representative operating loads.</p></div></article><div class="hero-actions"><a class="button secondary" href="index.html#projects">Back to projects</a><a class="button primary" href="hybrid-touch.html">Next project</a></div></section></main><footer class="site-footer shell">
+    <p>Nan An · Engineering Portfolio</p>
+    <p>Content revised with ChatGPT assistance using the supplied CV and research presentation.</p>
+  </footer></body></html>
